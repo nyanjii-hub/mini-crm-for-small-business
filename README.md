@@ -2,6 +2,11 @@
 
 小規模事業者向けのミニCRM。顧客・問い合わせ・請求・予約を1画面で管理する。
 
+## Demo
+
+https://mini-crm-for-small-business-ads8.vercel.app/login
+
+
 ## 機能
 
 | 機能 | URL | 説明 |
