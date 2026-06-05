@@ -8,9 +8,9 @@ https://mini-crm-for-small-business-ads8.vercel.app/login
 
 ## Screenshots
 
-![ログイン画面](./screenshots/login.png)
+![Login Screen](./screenshots/login.png)
 
-![ダッシュボード](./screenshots/dashboard.png)
+![Dashboard](./screenshots/dashboard.png)
 
 
 
