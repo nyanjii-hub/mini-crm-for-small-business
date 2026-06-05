@@ -6,6 +6,13 @@
 
 https://mini-crm-for-small-business-ads8.vercel.app/login
 
+## Screenshots
+
+![ログイン画面](./screenshots/login.png)
+
+![ダッシュボード](./screenshots/dashboard.png)
+
+
 
 ## 機能
 
