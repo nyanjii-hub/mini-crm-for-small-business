@@ -7,8 +7,11 @@
 https://mini-crm-for-small-business-ads8.vercel.app/login
 
 ## Screenshots
+
+### Login
 <img width="1903" height="912" alt="login" src="https://github.com/user-attachments/assets/2ce8a9c9-4a9b-44ae-8d8f-9c1bf0622483" />
 
+### Dashboard
 <img width="1907" height="920" alt="dashboard" src="https://github.com/user-attachments/assets/76ea04f6-8ce9-4747-b45d-48fe744cc699" />
 
 ## 機能
