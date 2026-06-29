@@ -1,59 +1,34 @@
-import { createServerClient } from "@supabase/ssr";
-import { NextResponse, type NextRequest } from "next/server";
+﻿import { NextResponse, type NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request });
+const PUBLIC_PATHS = [
+  "/",
+  "/login",
+  "/public-booking",
+  "/favicon.ico",
+  "/robots.txt",
+  "/sitemap.xml",
+];
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
-          supabaseResponse = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          );
-        },
-      },
-    }
+function isPublicPath(pathname: string) {
+  return (
+    PUBLIC_PATHS.includes(pathname) ||
+    pathname.startsWith("/_next/") ||
+    pathname.startsWith("/images/") ||
+    pathname.startsWith("/assets/") ||
+    /\.(?:png|jpg|jpeg|gif|webp|svg|ico|css|js|txt|map)$/.test(pathname)
   );
+}
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // 認証不要なパス
-  const publicPaths = ["/login", "/public-booking"];
-  const isPublic = publicPaths.some((p) => pathname.startsWith(p));
-
-  // 未ログインで保護ページへアクセス → /login へリダイレクト
-  if (!user && !isPublic && pathname !== "/") {
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = "/login";
-    return NextResponse.redirect(redirectUrl);
+  if (isPublicPath(pathname)) {
+    return NextResponse.next();
   }
 
-  // ログイン済みで /login へアクセス → /dashboard へリダイレクト
-  if (user && pathname === "/login") {
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = "/dashboard";
-    return NextResponse.redirect(redirectUrl);
-  }
-
-  return supabaseResponse;
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
